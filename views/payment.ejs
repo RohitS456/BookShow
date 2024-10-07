@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment</title>
+    <link rel="stylesheet" href="/payment.css"> <!-- Link to CSS for styling -->
+</head>
+<body>
+    <div class="container">
+        <h2>Complete Payment</h2>
+        <form id="payment-form">
+            <label for="cardholder-name">Cardholder Name</label>
+            <input type="text" id="cardholder-name" placeholder="Enter Cardholder Name" required>
+
+            <label for="card-element">Card Number</label>
+            <div id="card-element"><!-- Stripe Card Element --></div>
+
+            <label for="expiry">Expiry Date</label>
+            <div class="row">
+                <select id="exp-month" required>
+                    <option value="" disabled selected>Month</option>
+                    <!-- Month options -->
+                    <option value="01">01</option><option value="02">02</option>
+                    <option value="03">03</option><option value="04">04</option>
+                    <option value="05">05</option><option value="06">06</option>
+                    <option value="07">07</option><option value="08">08</option>
+                    <option value="09">09</option><option value="10">10</option>
+                    <option value="11">11</option><option value="12">12</option>
+                </select>
+
+                <select id="exp-year" required>
+                    <option value="" disabled selected>Year</option>
+                    <!-- Year options -->
+                    <option value="2024">2024</option><option value="2025">2025</option>
+                    <option value="2026">2026</option><option value="2027">2027</option>
+                </select>
+            </div>
+
+            <label for="cvc">CVC</label>
+            <input type="text" id="cvc" placeholder="Enter 3-digit CVC" maxlength="3" required>
+
+            <button id="submit">Pay Now</button>
+        </form>
+        <div id="payment-result" class="error-message"></div>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('pk_test_51Q7JatLtjViHkk8NuxOHi9d07mhVoqti8H8Pkh1QEaUgYmODPdNlNCwk1VrEfC3jH3u64eZkZ0txl9XPeqck5VAn00ziDxWpZ0'); // Replace with your Publishable API key
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element'); // Mount the Stripe card element
+
+        const form = document.getElementById('payment-form');
+        const paymentResult = document.getElementById('payment-result');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const cardholderName = document.getElementById('cardholder-name').value;
+
+            try {
+                // Fetch the client secret from the backend
+                const response = await fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: 5000 }) // Example amount: $50.00
+                });
+
+                // Check if the response is okay
+                if (!response.ok) {
+                    throw new Error('Failed to create payment intent.');
+                }
+
+                const { clientSecret } = await response.json();
+
+                if (!clientSecret) {
+                    throw new Error('Missing client secret.');
+                }
+
+                // Confirm payment with Stripe
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: cardholderName,
+                        }
+                    }
+                });
+
+                if (error) {
+                    // Display error message
+                    paymentResult.textContent = error.message;
+                    paymentResult.classList.add("error");
+                } else {
+                    // Payment successful, redirect to success page
+                    window.location.href = `/success?paymentIntentId=${paymentIntent.id}`;
+                }
+            } catch (error) {
+                // Display any caught errors
+                paymentResult.textContent = error.message;
+                paymentResult.classList.add("error");
+            }
+        });
+    </script>
+</body>
+</html>

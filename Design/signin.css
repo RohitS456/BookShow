@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("photo-1526309957074-3b94bb318dcb.avif");
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .form-box {
+    background-color: #1c1c1c;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    width: 350px;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    color: red;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: white;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: red;
+  }
+
+  .btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn:hover {
+    background-color: #b30000;
+  }
+
+  .alt-action {
+    margin-top: 20px;
+  }
+
+  .alt-action a {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .alt-action a:hover {
+    text-decoration: underline;
+    color: #ff6666;
+  }
+
+  /* Hide the forms */
+  .form-box.hidden {
+    display: none;
+  }

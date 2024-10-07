@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookMyShow - Book Your Show</title>
+  <link rel="stylesheet" href="/book.css"> 
+</head>
+<body>
+  <div class="container">
+    <div class="booking-box">
+      <form action="/payment" method="get">
+      <img src="https://cdn.gulte.com/wp-content/uploads/2024/08/Stree-2-.jpg" alt="Movie Poster" class="movie-image"> <!-- Replace with actual image source -->
+      <h1 class="movie-title">Stree-2</h1>
+      
+      <label for="seat-type">Choose Seat Type:</label>
+      <select id="seat-type">
+        <option value="general">General</option>
+        <option value="vip">VIP</option>
+        <option value="premium">Premium</option>
+      </select>
+
+      <label for="time-slot">Choose Time Slot:</label>
+      <select id="time-slot">
+        <option value="4:30pm">4:30 PM</option>
+        <option value="8:30pm">8:30 PM</option>
+        <option value="10:30pm">10:30 PM</option>
+      </select>
+
+      <label for="num-seats">Choose Number of Seats:</label>
+      <select id="num-seats">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+
+      <h3 class="available-seats">Total Seats Available:</h3>
+      <p id="general-seats">General: 20</p>
+      <p id="vip-seats">VIP: 35</p>
+      <p id="premium-seats">Premium: 40</p>
+
+      <button class="book-button">Book the Show</button>
+    </form>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for potential functionality (if needed)
+    const bookButton = document.querySelector('.book-button');
+    const seatTypeSelect = document.getElementById('seat-type');
+    const numSeatsSelect = document.getElementById('num-seats');
+
+    // Initial seat availability
+    let seatsAvailable = {
+      general: 20,
+      vip: 35,
+      premium: 40,
+    };
+
+    function updateAvailableSeats() {
+      const selectedSeatType = seatTypeSelect.value;
+      const selectedSeats = parseInt(numSeatsSelect.value);
+
+      // Update available seats
+      const remainingSeats = seatsAvailable[selectedSeatType] - selectedSeats;
+
+      // Display the updated number of available seats
+      document.getElementById(`${selectedSeatType}-seats`).textContent = 
+        `${selectedSeatType.charAt(0).toUpperCase() + selectedSeatType.slice(1)}: ${remainingSeats}`;
+
+      // Update the seat availability in the object
+      seatsAvailable[selectedSeatType] = remainingSeats >= 0 ? remainingSeats : 0;
+    }
+
+    // Event listeners for updates
+    seatTypeSelect.addEventListener('change', updateAvailableSeats);
+    numSeatsSelect.addEventListener('change', updateAvailableSeats);
+
+    bookButton.addEventListener('click', () => {
+      alert('Your show has been booked!');
+      updateAvailableSeats(); // Call this to ensure the latest availability is displayed
+    });
+  </script>
+</body>
+</html>

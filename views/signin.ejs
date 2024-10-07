@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookMyShow - Sign In / Login</title>
+  <link rel="stylesheet" href="/signin.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="form-box" id="login-box">
+          <h1>Login to BookMyShow</h1>
+
+          <form action="/login" method="post">
+            <div class="input-group">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" name="email" required>
+            </div>
+            <div class="input-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <p class="alt-action">Don't have an account? <a id="show-signin">Sign up here</a></p>
+          </form>
+        </div>
+    
+        <!-- Sign In Form (Initially hidden) -->
+        <div class="form-box hidden" id="signin-box">
+          <h1>Sign Up for BookMyShow</h1>
+
+          <form action="/register" method="post">
+            <div class="input-group">
+              <label for="signin-email">Email</label>
+              <input type="email" id="signin-email" name="email" required>
+            </div>
+            <div class="input-group">
+              <label for="signin-password">Password</label>
+              <input type="password" id="signin-password" name="password" required>
+            </div>
+            <div class="input-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" name="confirmPassword" required>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+            <p class="alt-action">Already have an account? <a id="show-login">Login here</a></p>
+          </form>
+        </div>
+      </div>
+    
+      <script>
+        // JavaScript to toggle between Login and Sign In forms
+        const loginBox = document.getElementById('login-box');
+        const signInBox = document.getElementById('signin-box');
+    
+        const showSignIn = document.getElementById('show-signin');
+        const showLogin = document.getElementById('show-login');
+    
+        // Event listener for switching to Sign In form
+        showSignIn.addEventListener('click', () => {
+          loginBox.classList.add('hidden');
+          signInBox.classList.remove('hidden');
+        });
+    
+        // Event listener for switching to Login form
+        showLogin.addEventListener('click', () => {
+          signInBox.classList.add('hidden');
+          loginBox.classList.remove('hidden');
+        });
+      </script>
+</body>
+</html>
